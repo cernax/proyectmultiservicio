@@ -1,54 +1,63 @@
-import './home.css';
+import React, { Component } from "react";
+import Container from 'react-bootstrap/Container';
+import {Carousel, Col, Row} from "react-bootstrap";
+import Carruseltrabajador from './Component/carruseltrabajador';
 
-const signUpButton = () => {
-    let container = document.getElementById('container');
-    container.classList.add("right-panel-active");
-}
+class Home extends Component {
 
-const signInButton = () => {
-    let container = document.getElementById('container');
-    container.classList.remove("right-panel-active");
-}
-
-function Home() {
-
-    return (
-        <div>
-            <div className="container" id="container">
-                <div className="form-container sign-up-container">
-                    <form action="#">
-                        <h1>Crear una cuenta</h1>
-                        <input type="text" placeholder="Name"/>
-                        <input type="email" placeholder="Email"/>
-                        <input type="password" placeholder="Password"/>
-                        <button>Sign Up</button>
-                    </form>
-                </div>
-                <div className="form-container sign-in-container">
-                    <form action="#">
-                        <h1>Sign in</h1>
-                        <input type="email" placeholder="Email"/>
-                        <input type="password" placeholder="Password"/>
-                        <a href="#">¿Olvidaste tu contraseña?</a>
-                        <button>Sign In</button>
-                    </form>
-                </div>
-                <div className="overlay-container">
-                    <div className="overlay">
-                        <div className="overlay-panel overlay-left">
-                            <h1>Bienvenido de nuevo!</h1>
-                            <p>Para mantenerse conectado con nosotros, inicie sesión con su información personal</p>
-                            <button className="ghost" id="signIn" onClick={signInButton}>Sign In</button>
-                        </div>
-                        <div className="overlay-panel overlay-right">
-                            <h1>Hello, Friend!</h1>
-                            <p>Ingrese sus datos personales y comience su viaje con nosotros</p>
-                            <button className="ghost" id="signUp" onClick={signUpButton}>Sign Up</button>
-                        </div>
+    render() {
+        return (
+            <>
+                <div>
+                    <div style={{backgroundColor:'#efefef'}}>
+                        <Container>
+                            <Row>
+                                <Col></Col>
+                                <Col xs={7}>
+                                    <Carousel variant="dark">
+                                        <Carousel.Item>
+                                            <img
+                                                className="d-block w-100"
+                                                src="https://mdbootstrap.com/img/Photos/Slides/img%20(3).jpg"
+                                                alt="First slide"
+                                            />
+                                            <Carousel.Caption>
+                                                <h5>First slide label</h5>
+                                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                            </Carousel.Caption>
+                                        </Carousel.Item>
+                                        <Carousel.Item>
+                                            <img
+                                                className="d-block w-100"
+                                                src="https://mdbootstrap.com/img/Photos/Slides/img%20(2).jpg"
+                                                alt="Second slide"
+                                            />
+                                            <Carousel.Caption>
+                                                <h5>Second slide label</h5>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                            </Carousel.Caption>
+                                        </Carousel.Item>
+                                        <Carousel.Item>
+                                            <img
+                                                className="d-block w-100"
+                                                src="https://mdbootstrap.com/img/Photos/Slides/img%20(1).jpg"
+                                                alt="Third slide"
+                                            />
+                                            <Carousel.Caption>
+                                                <h5>Third slide label</h5>
+                                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                                            </Carousel.Caption>
+                                        </Carousel.Item>
+                                    </Carousel></Col>
+                                <Col></Col>
+                            </Row>
+                        </Container>
                     </div>
+                    <Carruseltrabajador title='Trabajos' />
                 </div>
-            </div>
-        </div>
-    );
+            </>
+        );
+    }
 }
+
 export default Home;
