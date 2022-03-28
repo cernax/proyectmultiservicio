@@ -29,7 +29,9 @@ app.use((req, res, next) =>{
     next();
 });
 //routes
-app.use('/api/user', require('./routes/user.routes'));
+    app.use('/api/profesion', require('./routes/profesion.routes'));
+    app.use('/api/profile', require('./routes/profile.routes'));
+    app.use('/api/user', require('./routes/user.routes'));
 //static files
 
 //starting server

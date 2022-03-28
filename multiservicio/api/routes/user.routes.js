@@ -24,9 +24,9 @@ router.get('/:acountuser', async (req, res) =>{
 
 //post
 router.post('/', async (req, res) =>{
-    const { nombreuser, correouser, passuser, acountuser } = req.body;
+    const { nombreuser, correouser, passuser, acountuser, tipouser } = req.body;
     const users = new Users({
-        nombreuser, correouser, passuser, acountuser
+        nombreuser, correouser, passuser, acountuser, tipouser
     });
     await users.save();
     res.json({status:"user saved"});

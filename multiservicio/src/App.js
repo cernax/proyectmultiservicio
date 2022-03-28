@@ -20,6 +20,7 @@ interface RegisterUser {
 function App() {
 
     const [name, setName] = useState("");
+    const [user, setuser] = useState("");
     const [correouser, setcorreouser] = useState("");
     const [passuser, setpassuser] = useState("");
     const [acountuser, setacountuser] = useState("");
@@ -27,10 +28,9 @@ function App() {
     const [showreg, setshowreg] = useState(false);
     const [isAuthenticated, setisAuthenticated] = useState(false);
     const [nombreuser, setnombreuser] = useState("");
+    const [TipoUser, setTipoUser] = useState("");
 
     let loginuser = async (e) => {
-        console.log(name);
-        debugger;
         fetch('http://localhost:3001/api/user/' + name)
             .then(res => res.json())
             .then(data => {
@@ -40,6 +40,7 @@ function App() {
                         setshow(false);
                         setisAuthenticated(true);
                         setnombreuser(res.nombreuser);
+                        setuser(res.acountuser);
                     }
                 });
             })
@@ -49,16 +50,14 @@ function App() {
     }
 
     let loginusercreate = async (e) => {
-        debugger;
-        console.log(name);
-
         fetch('http://localhost:3001/api/user',{
             method: 'POST',
             body: JSON.stringify({
                 nombreuser:name,
                 correouser: correouser,
                 passuser: passuser,
-                acountuser: acountuser
+                acountuser: acountuser,
+                tipouser: TipoUser
             }),
             headers:{
                 "Accept":"application/json",
@@ -113,7 +112,9 @@ function App() {
                                                 <Link to="/Configuracion" style={{textDecoration:"none", color:"black", width:'100%', display:'block'}}>Configuración</Link>
                                             </NavDropdown.Item>
                                             <NavDropdown.Divider/>
-                                            <NavDropdown.Item onClick={()=> setisAuthenticated(false)}>Salir</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={()=> setisAuthenticated(false)}>
+                                                <Link to="/" style={{textDecoration:"none", color:"black", width:'100%', display:'block'}}>Salir</Link>
+                                            </NavDropdown.Item>
                                         </NavDropdown>
                                     </Nav>
                                     :
@@ -179,6 +180,36 @@ function App() {
                                                         <Form.Label>Password</Form.Label>
                                                         <Form.Control type="password" placeholder="Password"  onChange={ (e)=> setpassuser(e.target.value) } />
                                                     </Form.Group>
+                                                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                                                        <Form.Label>Tipo de Usuario</Form.Label>
+                                                        {['radio'].map((type) => (
+                                                            <div key={`inline-${type}`} className="mb-3">
+                                                                <Form.Check
+                                                                    inline
+                                                                    label="Prestador de Servicio"
+                                                                    name="group1"
+                                                                    type={type}
+                                                                    id={"1"}
+                                                                    onChange={(e)=> {
+                                                                        if(e.target.checked)
+                                                                            setTipoUser(e.target.id)
+                                                                    } }
+                                                                />
+                                                                <Form.Check
+                                                                    inline
+                                                                    label="Consumidor de Servicio"
+                                                                    name="group1"
+                                                                    type={type}
+                                                                    id={"0"}
+                                                                    onChange={(e)=> {
+                                                                        if(e.target.checked)
+                                                                            setTipoUser(e.target.id)
+                                                                    } }
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                    </Form.Group>
+                                                    <hr/>
                                                     <Row>
                                                         <Col sm={9}>
                                                             <Button variant="primary" type="submit" onClick={loginusercreate}>
@@ -198,7 +229,7 @@ function App() {
                 <div>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="Perfil" element={<Perfil />} />
+                        <Route path="Perfil" element={<Perfil title={nombreuser} name={user} />} />
                         <Route path="Configuracion" element={<Configuracion />} />
                     </Routes>
                 </div>

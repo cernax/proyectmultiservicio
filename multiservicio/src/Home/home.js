@@ -12,8 +12,7 @@ class Home extends Component {
                     <div style={{backgroundColor:'#efefef'}}>
                         <Container>
                             <Row>
-                                <Col></Col>
-                                <Col xs={7}>
+                                <Col xs={7} style={{width:"100%"}}>
                                     <Carousel variant="dark">
                                         <Carousel.Item>
                                             <img
