@@ -1,18 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const multer = require("multer");
+const upload = require("../middleware");
 const Profile = require('../models/profiles');
 
-const storage = multer.diskStorage({
-    destination: (req, file, callback) =>{
-        callback(null, "./client/public/uploads/");
-    },
-    filename: (req, file, callback) =>{
-        callback(null, file.originalname);
-    }
-})
-
-const upload = multer({storage:storage})
 
 router.get('/:acountuser', async (req, res) =>{
     var regex = new RegExp(req.params.acountuser, 'i')
@@ -24,18 +14,11 @@ router.get('/:acountuser', async (req, res) =>{
 });
 
 //add
-router.post("/add", upload.single("articleImage"), (req, res) => {
-    const newArticle = new Profile({
-        title:req.body.title,
-        article: req.body.article,
-        authorname: req.body.authorname,
-        articleImage: req.file.articleImage
-    });
-    newArticle
-        .save()
-        .then(() => res.json("new Article posted!"))
-        .catch((err) => res.status(400).json("Error:" + err));
-})
+router.post("/upload", upload.single("file"), async (req, res) => {
+    if (req.file === undefined) return res.send("you must select a file.");
+    const imgUrl = `http://localhost:8080/file/${req.file.filename}`;
+    return res.send(imgUrl);
+});
 
 router.get('/add', async (req, res) =>{
     var regex = new RegExp(req.params.acountuser, 'i')

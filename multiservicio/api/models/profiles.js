@@ -6,7 +6,7 @@ const prflSchema = new Schema({
     descrip:{ type:String, require: true },
     idtrabajos:{ type:String, require: true },
     profesion:{ type:String, require: true },
-    imgUser:{ type:String, require: true }
+    imgUser:{ data: Buffer, contentType: String, require: true }
 });
 
 module.exports = mongoose.model('profile', prflSchema);

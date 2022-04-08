@@ -32,8 +32,28 @@ app.use((req, res, next) =>{
     app.use('/api/profesion', require('./routes/profesion.routes'));
     app.use('/api/profile', require('./routes/profile.routes'));
     app.use('/api/user', require('./routes/user.routes'));
-//static files
+//img
+let gfs;
 
+app.get("/profile/:filename", async (req, res) => {
+    try {
+        const file = await gfs.files.findOne({ filename: req.params.filename });
+        const readStream = gfs.createReadStream(file.filename);
+        readStream.pipe(res);
+    } catch (error) {
+        res.send("not found");
+    }
+});
+
+app.delete("/profile/:filename", async (req, res) => {
+    try {
+        await gfs.files.deleteOne({ filename: req.params.filename });
+        res.send("success");
+    } catch (error) {
+        console.log(error);
+        res.send("An error occured.");
+    }
+});
 //starting server
 app.listen(app.get('port'), () => {
     console.log('server on port 3001')

@@ -16,6 +16,7 @@ function Perfil(props) {
     const [descript, setdescript] = useState("");
     const [datatiptrabajo, setdatatiptrabajo] = useState([]);
     const [userimage, setuserimage] = useState([]);
+    const [tieneTrabajo, settieneTrabajo] = useState(false);
 
     //cargar imagenes
     const [title, settitle] = useState("");
@@ -50,11 +51,13 @@ function Perfil(props) {
                     {
                         ConsultTipoTrabajo();
                         setfirstshow(true);
+                        settieneTrabajo(false);
                     }
                     else {
                         data.forEach(resp => {
                             setprofesion(resp.profesion);
                             setdescript(resp.descrip);
+                            settieneTrabajo(true);
                         })
                     }
                 })
@@ -98,7 +101,6 @@ function Perfil(props) {
             e.preventDefault();
         }
 
-
         return (
             <>
                 <div onLoad={ConsultTrabajo} >
@@ -107,7 +109,7 @@ function Perfil(props) {
                         <Card.ImgOverlay>
                             <div style={{display: "flex"}} >
                                 <Card.Title>{props.title}</Card.Title>&nbsp;&nbsp;&nbsp;
-                                <BsFillPencilFill onClick={ () => alert("hola")} style={{cursor:"pointer"}} />
+                                <BsFillPencilFill onClick={handlefirstshow} style={{cursor:"pointer"}} />
                             </div>
                             <Card.Text>{profesion}</Card.Text>
                             <Card.Text>{descript}</Card.Text>
@@ -155,7 +157,7 @@ function Perfil(props) {
                 </Modal>
                 <Modal show={firstshow} onHide={handleClosefirstshow}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Cree su perfil</Modal.Title>
+                        <Modal.Title> { tieneTrabajo ? "Actualiza su perfil" : "Cree su perfil" }</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -174,7 +176,7 @@ function Perfil(props) {
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>Descripción</Form.Label>
-                                <Form.Control as="textarea" rows={3} onChange={(e)=> setdescript(e.target.value)} />
+                                <Form.Control as="textarea" rows={3} onChange={(e)=> setdescript(e.target.value)} value={descript} />
                             </Form.Group>
                             <Form.Group controlId="formFileMultiple" className="mb-3">
                                 <Form.Label>Foto de perfil</Form.Label>
