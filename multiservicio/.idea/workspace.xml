@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c5d5f0d2-a708-4634-80e6-0a772dc60683" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/api/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/middleware.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="Sass File" />
+        <option value="SCSS File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="21TptiLyj1MSoCVY7s09hpp4j9b" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c5d5f0d2-a708-4634-80e6-0a772dc60683" name="Default Changelist" comment="" />
+      <created>1637975147828</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1637975147828</updated>
+      <workItem from="1637975149880" duration="644000" />
+      <workItem from="1638319903563" duration="325000" />
+      <workItem from="1638483035567" duration="6783000" />
+      <workItem from="1638573986613" duration="4658000" />
+      <workItem from="1638737406614" duration="8371000" />
+      <workItem from="1641765721099" duration="9036000" />
+      <workItem from="1641946405637" duration="3239000" />
+      <workItem from="1642264733148" duration="8206000" />
+      <workItem from="1645243811328" duration="60000" />
+      <workItem from="1647748066465" duration="3219000" />
+      <workItem from="1647808380068" duration="9416000" />
+      <workItem from="1648157108297" duration="13121000" />
+      <workItem from="1648338914301" duration="16875000" />
+      <workItem from="1648391991122" duration="15073000" />
+      <workItem from="1649031317040" duration="2231000" />
+      <workItem from="1649374971070" duration="4649000" />
+      <workItem from="1649557742468" duration="2074000" />
+      <workItem from="1649813184604" duration="2065000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
