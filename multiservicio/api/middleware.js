@@ -1,8 +1,12 @@
 const multer = require("multer");
+const util = require("util");
 const GridFsStorage = require("multer-gridfs-storage");
 
+const uri = 'mongodb://localhost:27017';
+const dbName = 'multiservicio';
+
 const storage = new GridFsStorage({
-    url: process.env.DB,
+    url: uri + '/' + dbName,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {
         const match = ["image/png", "image/jpeg"];
@@ -18,5 +22,7 @@ const storage = new GridFsStorage({
         };
     },
 });
+var uploadFiles = multer({ storage: storage }).single("file");
+var uploadFilesMiddleware = util.promisify(uploadFiles);
 
 module.exports = multer({ storage });
