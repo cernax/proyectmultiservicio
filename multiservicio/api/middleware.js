@@ -1,28 +1,20 @@
-const multer = require("multer");
-const util = require("util");
-const GridFsStorage = require("multer-gridfs-storage");
+const cloudinary = require('cloudinary').v2;
 
-const uri = 'mongodb://localhost:27017';
-const dbName = 'multiservicio';
-
-const storage = new GridFsStorage({
-    url: uri + '/' + dbName,
-    options: { useNewUrlParser: true, useUnifiedTopology: true },
-    file: (req, file) => {
-        const match = ["image/png", "image/jpeg"];
-
-        if (match.indexOf(file.mimetype) === -1) {
-            const filename = `${Date.now()}-any-name-${file.originalname}`;
-            return filename;
-        }
-
-        return {
-            bucketName: "photos",
-            filename: `${Date.now()}-any-name-${file.originalname}`,
-        };
-    },
+cloudinary.config({
+    cloud_name: 'dvdvnsjv0',
+    api_key: '481121985867285',
+    api_secret: 'VcxL4snzHjluap1CNc4pEA2-x2k',
+    secure: true
 });
-var uploadFiles = multer({ storage: storage }).single("file");
-var uploadFilesMiddleware = util.promisify(uploadFiles);
 
-module.exports = multer({ storage });
+async function uploadImage(filepath, nameuser){
+    return await cloudinary.uploader.upload(filepath, {
+        folder: nameuser
+    });
+}
+
+async function deleteImage(imgid){
+    return await cloudinary.uploader.destroy(imgid);
+}
+
+module.exports = {uploadImage, deleteImage};

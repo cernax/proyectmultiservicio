@@ -3,21 +3,23 @@ const router = express.Router();
 const Users = require('../models/users');
 
 //get
-//router.get('/', async (req, res) =>{
-    //const users = await Users.find();
-    //console.log(users);
-    //res.json(users);
-//});
+router.get('/', async (req, res) =>{
+    const users = await Users.find();
+    console.log(users);
+    res.json(users);
+});
 
 //router.get('/:id', async (req, res) =>{
    // const users = await Users.findById(req.params.id);
    // res.json(users);
 //});
-router.get('/:acountuser', async (req, res) =>{
-    var regex = new RegExp(req.params.acountuser, 'i')
+router.get('/:acountuser/:passuser', async (req, res) =>{
+    var user = new RegExp(req.params.acountuser, 'i')
+    var pass = new RegExp(req.params.passuser, 'i')
     //const { acountuser } = req.body;
     const users = await Users.find({
-        acountuser: regex
+        acountuser: user,
+        passuser: pass,
     });
     res.json(users);
 });

@@ -1,5 +1,5 @@
 import './App.css';
-import React, {Component, useState} from "react";
+import React, { useState} from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -10,12 +10,6 @@ import Perfil from "./Perfil/perfil";
 import Home from './Home/home';
 import Configuracion from "./Configuracion/configuracion";
 
-interface RegisterUser {
-    nombreuser: string,
-    correouser: string,
-    passuser: string,
-    acountuser: string
-}
 
 function App() {
 
@@ -31,7 +25,7 @@ function App() {
     const [TipoUser, setTipoUser] = useState("");
 
     let loginuser = async (e) => {
-        fetch('http://localhost:3001/api/user/' + name)
+        fetch('http://localhost:3001/api/user/' + name + '/' + passuser)
             .then(res => res.json())
             .then(data => {
                 data.map(res => {
@@ -138,7 +132,7 @@ function App() {
                                                     </Form.Group>
                                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                                         <Form.Label>Password</Form.Label>
-                                                        <Form.Control type="password" placeholder="Password" />
+                                                        <Form.Control type="password" placeholder="Password" onChange={(e)=> setpassuser(e.target.value)}  />
                                                     </Form.Group>
                                                     <Row>
                                                         <Col sm={9}>

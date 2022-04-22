@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const upload = require("../middleware");
+const {uploadImage, deleteImage} = require("../middleware");
 const Profile = require('../models/profiles');
-
+const fs = require('fs-extra');
+const fileupload = require('express-fileupload');
 
 router.get('/:acountuser', async (req, res) =>{
     var regex = new RegExp(req.params.acountuser, 'i')
@@ -14,27 +15,31 @@ router.get('/:acountuser', async (req, res) =>{
 });
 
 //add
-router.post("/upload", upload.single("file"), async (req, res) => {
-    if (req.file === undefined) return res.send("you must select a file.");
-    const imgUrl = `http://localhost:8080/file/${req.file.filename}`;
-    return res.send(imgUrl);
-});
-
-router.get('/add', async (req, res) =>{
-    var regex = new RegExp(req.params.acountuser, 'i')
-    //const { acountuser } = req.body;
-    const perfil = await Profile.find({
-        acountuser: regex
-    });
-    res.json(perfil);
-});
 
 //post
-router.post('/', async (req, res) =>{
+router.post('/', fileupload({
+    useTempFiles: true,
+    tempFileDir: './uploads'
+}), async (req, res) =>{
+    debugger;
+
     const { acountuser, descrip, idtrabajos, profesion } = req.body;
     const perfil = new Profile({
         acountuser, descrip, idtrabajos, profesion
     });
+
+    console.log(req.files?.img);
+
+    if(req.files?.img){
+        const result = await uploadImage(req.files.img.tempFilePath, acountuser);
+        perfil.image = {
+            public_id:result.public_id,
+            url:result.secure_url
+        }
+
+        await fs.unlink(req.files.img.tempFilePath);
+    }
+
     await perfil.save();
     res.json({status:"user saved"});
 });
@@ -49,8 +54,10 @@ router.put('/:id', async (req, res) =>{
 
 //delete
 router.delete('/:id', async (req, res) =>{
-    await Profile.findByIdAndRemove(req.params.id);
+    const profile =  await Profile.findByIdAndRemove(req.params.id);
     res.json({status:"users deleted"});
+
+    await deleteImage(profile.image.public_id);
 });
 
 module.exports = router;

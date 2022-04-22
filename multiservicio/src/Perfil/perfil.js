@@ -1,36 +1,35 @@
-import React, {Component, useState} from "react";
+import React, {useState} from "react";
 import {Card, Col, Row, Button, Modal, Form} from "react-bootstrap";
 import {BsFillPencilFill} from "react-icons/all";
 
-interface imageuser {
-    FileName: string,
-    typeImage: string,
-    size: string,
-}
-
 function Perfil(props) {
 
+    //crear perfil
     const [show, setShow] = useState(false);
     const [firstshow, setfirstshow] = useState(false);
     const [profesion, setprofesion] = useState("");
     const [descript, setdescript] = useState("");
     const [datatiptrabajo, setdatatiptrabajo] = useState([]);
-    const [userimage, setuserimage] = useState([]);
     const [tieneTrabajo, settieneTrabajo] = useState(false);
+    const [urlimgperfil, seturlimgperfil] = useState("");
 
     //cargar imagenes
-    const [title, settitle] = useState("");
-    const [articulo, setarticulo] = useState("");
-    const [authorname, setauthorname] = useState("");
-    const [message, setmessage] = useState("");
-    const [filename, setfilename] = useState("");
+    const [file, setfile] = useState([]);
 
+    //cargar trabajo
+    const [nomtrabajo, setnomtrabajo] = useState("");
+    const [desctrabajo, setdesctrabajo] = useState("");
+    const [imgstrabajos, setimgstrabajos] = useState([]);
 
+    const [datostrabajos, setdatostrabajos] = useState([]);
+
+    let datajob = [];
 
     const onChangeFile = e => {
-        debugger;
-
-        setfilename(e.target.files[0]);
+        setfile(e.target.files[0]);
+    }
+    const onChangeFileTrabajos = e => {
+        setimgstrabajos(e.target.files[0]);
     }
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -38,15 +37,10 @@ function Perfil(props) {
     const handleClosefirstshow = () => setfirstshow(false);
     const handlefirstshow = () => setfirstshow(true);
 
-        let timeout = (delay: number) => {
-            return new Promise( res => setTimeout(res, delay) );
-        }
-
-        let ConsultTrabajo = async () => {
-            fetch('http://localhost:3001/api/profile/' + props.name)
+    let ConsultTrabajo = async () => {
+        await fetch('http://localhost:3001/api/profile/' + props.name)
                 .then(res => res.json())
                 .then(data => {
-                    debugger;
                     if(data.length === 0)
                     {
                         ConsultTipoTrabajo();
@@ -58,13 +52,26 @@ function Perfil(props) {
                             setprofesion(resp.profesion);
                             setdescript(resp.descrip);
                             settieneTrabajo(true);
+                            seturlimgperfil(resp.image.url);
                         })
                     }
                 })
                 .catch(err => console.error(err));
+
+
+            datajob = await fetch('http://localhost:3001/api/portafolio/' + props.name)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.length > 0)
+                    {
+                        return data;
+                    }
+                })
+                .catch(err => console.error(err));
+            console.log(datajob);
         }
 
-        let ConsultTipoTrabajo = async () => {
+    let ConsultTipoTrabajo = async () => {
             fetch('http://localhost:3001/api/profesion/')
                 .then(res => res.json())
                 .then(data => {
@@ -76,22 +83,21 @@ function Perfil(props) {
                 .catch(err => console.error(err));
         }
 
-        let guardarTipoTrabajo = async (e) => {
-            fetch('http://localhost:3001/api/profile',{
+    let guardarTipoTrabajo = async (e) => {
+
+        const data = new FormData();
+        data.append("img", file);
+        data.append('acountuser', props.name);
+        data.append('profesion', profesion);
+        data.append('descrip', descript);
+
+        const res = await fetch('http://localhost:3001/api/profile',{
                 method: 'POST',
-                body: JSON.stringify({
-                    acountuser:props.name,
-                    profesion:profesion,
-                    descrip: descript
-                }),
-                headers:{
-                    "Accept":"application/json",
-                    "Content-Type":"application/json"
-                }
+                body: data
             })
                 .then(res => res.json())
-                .then(data => {
-                    console.log(data);
+                .then(dt => {
+                    console.log(dt);
                     handleClosefirstshow();
                 })
                 .catch(err => {
@@ -101,11 +107,35 @@ function Perfil(props) {
             e.preventDefault();
         }
 
+    let guardarTrabajos = async (e) => {
+
+        const data = new FormData();
+        data.append("img", imgstrabajos);
+        data.append('acountuser', props.name);
+        data.append('nomportafolio', nomtrabajo);
+        data.append('descrip', desctrabajo);
+
+        const res = await fetch('http://localhost:3001/api/portafolio',{
+            method: 'POST',
+            body: data
+        })
+            .then(res => res.json())
+            .then(dt => {
+                console.log(dt);
+                handleClose();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        e.preventDefault();
+    }
+
         return (
             <>
                 <div onLoad={ConsultTrabajo} >
-                    <Card className="bg-dark text-white">
-                        <Card.Img src="https://mdbootstrap.com/img/Photos/Slides/img%20(75).jpg" alt="Card image" />
+                    <Card className="bg-white text-white">
+                        <Card.Img src={urlimgperfil} alt="Card image" style={{width:"50%"}} />
                         <Card.ImgOverlay>
                             <div style={{display: "flex"}} >
                                 <Card.Title>{props.title}</Card.Title>&nbsp;&nbsp;&nbsp;
@@ -118,6 +148,11 @@ function Perfil(props) {
                     <hr/>
                     <Button variant="primary" onClick={handleShow}>Nuevo trabajo</Button>
                     <hr/>
+                    {
+                        datajob.map( res => {
+                            return <div>{res.nomportafolio}</div>
+                        })
+                    }
                     <Row xs={1} md={4} className="g-4" style={{width:"100%"}}>
                         {Array.from({ length: 4 }).map((_, idx) => (
                             <Col>
@@ -141,13 +176,25 @@ function Perfil(props) {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Nombre de Trabajo</Form.Label>
+                                <Form.Control type="text" placeholder="Nombre"  onChange={(e)=> {
+                                    setnomtrabajo(e.target.value)
+                                }}/>
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                <Form.Label>Descripción del Trabajo</Form.Label>
+                                <Form.Control as="textarea" rows={3} value={desctrabajo} onChange={(e)=> {
+                                    setdesctrabajo(e.target.value)
+                                }} />
+                            </Form.Group>
                             <Form.Group controlId="formFileMultiple" className="mb-3">
-                                <Form.Control type="file" multiple />
+                                <Form.Control type="file" multiple  onChange={onChangeFileTrabajos}/>
                             </Form.Group>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button variant="primary" onClick={guardarTrabajos}>
                             Guardar
                         </Button>
                         <Button variant="secondary" onClick={handleClose}>
